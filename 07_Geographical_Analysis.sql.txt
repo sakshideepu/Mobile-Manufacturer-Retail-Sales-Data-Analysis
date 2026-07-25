@@ -1,0 +1,35 @@
+--PHASE 7: GEOGRAPHICAL ANALYSIS
+
+
+
+--Geographical Analysis 1: Revenue by Country
+
+Select b.country, sum(a.totalprice) as total_revenue from fact_transactions as a join dim_location as b on a.idlocation =b.idlocation
+group by b.country order by total_revenue desc
+
+
+
+--Geographical Analysis 2: top 10 cities by revenue
+select top 10 b.city, b.state, sum(a.totalprice) as total_revenue from fact_transactions as a join dim_location as b on a.idlocation = b.idlocation 
+group by b.city, b.state order by total_revenue desc
+
+
+
+--Geographical Analysis 3: Average Revenue Per Transaction by State 
+select b.state, round(avg(a.totalprice),2) as avg_revenue_per_transaction from fact_transactions as a join dim_location as b on a.idlocation = b.idlocation 
+group by b.state order by avg_revenue_per_transaction desc
+
+
+
+--Geographical Analysis 4: Revenue Contribution by state (%)
+select b.state, sum(a.totalprice) as total_revenue, round(sum(A.TOTALPRICE)*100/sum(sum(a.totalprice)) OVER(),2) AS Revenue_Contribution_Percentage
+from fact_transactions as a join dim_location as b on a.idlocation = b.idlocation 
+group by b.state order by total_revenue desc
+
+
+
+--Geographical Analysis 5: Best Performing City in Each State 
+with CityRevenue as (select b.state,b.city, sum(a.totalprice) as revenue, row_number() over(partition by b.state order by sum(a.totalprice) desc) as cityrank
+from fact_transactions as a join dim_location as b on a.idlocation = b.idlocation group by b.state, b.city)
+select state,city, revenue from cityrevenue where cityrank = 1 order by revenue desc
+

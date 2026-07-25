@@ -1,0 +1,70 @@
+Business Report – Mobile Manufacturer Sales SQL Analysis
+
+
+Summary
+
+This project analyzes a mobile retail sales dataset using Microsoft SQL Server to evaluate business performance across sales, products, customers, manufacturers, and geographic locations. The objective is to transform transactional data into meaningful business insights using SQL and support data-driven decision-making.
+
+
+Project Objective
+
+The analysis focuses on answering key business questions related to:
+
+- Overall sales performance
+- Product and manufacturer contribution
+- Customer purchasing behavior
+- Geographic sales trends
+- Revenue growth over time
+
+
+
+Key Findings
+
+After analyzing the dataset, the following observations were identified:
+
+- Apple generated the highest revenue among all manufacturers.
+- iPhone 4 was the best-performing product based on revenue.
+- Sales peaked during 2009, July, Quarter 3 indicating seasonal trends.
+- CustomerID 10036, name: Celeste Korando recorded the highest customer lifetime value.
+- A small segment of customers contributed a significant share of total revenue.
+- Country: India, City: Delhi generated the highest sales.
+- Several products consistently underperformed and may require further evaluation.
+- Sales growth varied across months, highlighting opportunities for improved demand planning.
+
+
+
+Business Recommendations
+
+Based on the analysis, the following actions are recommended:
+
+- Maintain sufficient inventory for high-performing products.
+- Strengthen partnerships with top-performing manufacturers.
+- Introduce loyalty programs for high-value customers.
+- Increase marketing efforts in high-performing regions while investigating weaker markets.
+- Review low-performing products for pricing, promotion, or discontinuation.
+- Use historical sales trends to improve forecasting and inventory planning.
+
+
+SQL Techniques Demonstrated
+
+This project applies the following SQL concepts:
+
+- INNER JOIN & LEFT JOIN
+- Aggregate Functions
+- GROUP BY & HAVING
+- CASE Expressions
+- Subqueries
+- Common Table Expressions (CTEs)
+- Window Functions
+- ROW_NUMBER()
+- RANK()
+- DENSE_RANK()
+- NTILE()
+- LAG()
+- Date Functions
+
+
+
+Conclusion
+
+This project demonstrates how SQL Server can be used to analyze retail sales data and generate actionable business insights. By combining data validation, KPI reporting, sales trend analysis, customer segmentation, product evaluation, and geographic analysis, the project showcases practical SQL skills commonly required for entry-level Data Analyst roles while emphasizing analytical thinking and business decision-making.

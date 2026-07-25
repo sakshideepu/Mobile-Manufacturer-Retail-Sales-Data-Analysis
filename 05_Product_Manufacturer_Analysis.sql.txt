@@ -1,0 +1,52 @@
+--Phase 5: Product & Manufacturer Analysis
+
+
+
+--product analysis 1: Revenue by manufacturer 
+
+Select b.idmanufacturer, c.manufacturer_name, sum(a.totalprice) as total_revenue from fact_transactions as a 
+inner join dim_model as b on a.idmodel = b.idmodel inner join dim_manufacturer as c
+on b.idmanufacturer = b.idmanufacturer group by b.idmanufacturer, c.manufacturer_name order by total_revenue desc
+
+--insight: identify the manufacturer contributing the most revenue 
+
+
+
+--Product analysis 2: Quantity sold by manufacturer 
+Select b.idmanufacturer, c.manufacturer_name, sum(a.quantity) as total_quantity from fact_transactions as a 
+inner join dim_model as b on a.idmodel = b.idmodel inner join dim_manufacturer as c
+on b.idmanufacturer = b.idmanufacturer group by b.idmanufacturer, c.manufacturer_name order by total_quantity desc
+
+
+
+--Product Analysis 3: Top 10 model by revenue 
+select top 10 a.idmodel, a.model_name, c.manufacturer_name, sum(b.totalprice) as total_revenue from dim_model as a 
+inner join fact_transactions as b on a.idmodel = b.idmodel inner join dim_manufacturer as c on a.idmanufacturer = c.idmanufacturer
+group by a.idmodel, a.model_name, c.manufacturer_name order by total_revenue desc
+
+
+
+--Product Analysis 4: Lowest Performing Model
+select top 10 a.idmodel, a.model_name, c.manufacturer_name, sum(b.totalprice) as total_revenue from dim_model as a 
+inner join fact_transactions as b on a.idmodel = b.idmodel inner join dim_manufacturer as c on a.idmanufacturer = c.idmanufacturer
+group by a.idmodel, a.model_name, c.manufacturer_name order by total_revenue 
+
+
+
+--Product Analysis 5: Revenue Contribution (%) by manufacturer
+select c.manufacturer_name, round(sum(b.totalprice)*100 /sum(sum(b.totalprice)) over(),2) as total_revenue_prcnt from dim_model as a 
+inner join fact_transactions as b on a.idmodel = b.idmodel inner join dim_manufacturer as c on a.idmanufacturer = c.idmanufacturer
+group by c.manufacturer_name order by total_revenue_prcnt
+
+
+
+--Product Analysis 6: Top Selling Model Within Each Manufacturer
+with abc as 
+(select c.manufacturer_name, a.idmodel,  sum(b.totalprice) as total_revenue, 
+rank() over(partition by c.manufacturer_name order by sum(b.totalprice) desc) as rnk_ from dim_model as a 
+inner join fact_transactions as b on a.idmodel = b.idmodel inner join dim_manufacturer as c on a.idmanufacturer = c.idmanufacturer
+group by c.manufacturer_name, a.idmodel)
+
+select manufacturer_name, idmodel, total_revenue from abc where rnk_ = 1 order by total_revenue desc
+
+

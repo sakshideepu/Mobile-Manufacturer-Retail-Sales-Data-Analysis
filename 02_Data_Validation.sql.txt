@@ -1,0 +1,8 @@
+--DATA VALIDATION
+
+Select * from dim_manufacturer where manufacturer_name is null
+Select * from dim_model where model_name is null or unit_price <=0
+Select * from dim_customer where customer_name is null
+Select * from dim_location where country is null or state is null or city is null
+Select * from dim_date where date is null
+Select * from FACT_TRANSACTIONS where idcustomer is null or totalprice <=0 or quantity <0

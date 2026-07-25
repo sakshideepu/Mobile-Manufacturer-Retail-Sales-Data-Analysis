@@ -1,0 +1,44 @@
+--KPI Analysis
+
+
+--KPI 1 : TOTAL REVENUE
+
+Select sum(TotalPrice) as Total_Revenue from fact_transactions
+--Insight: Shows the overall revenue generated from all transactions
+
+
+
+--KPI 2 : TOTAL QUANTITY SOLD
+
+Select sum(quantity) as total_Quantity_sold from fact_transactions
+--Insight: Measures total sales volume
+
+
+
+--KPI 3: TOTAL NUMBER OF TRANSACTIONS
+
+select count(*) as Total_Transactions from fact_transactions
+--Insight: Indicates the overall sales activity 
+
+
+
+--KPI 4: TOTAL CUSTOMERS
+--How many customers are in the database?
+
+select count(*) as total_customer from dim_customer
+
+
+
+--KPI 5: AVERAGE ORDER VALUE (AOV)
+
+select AVG(TotalPrice) as average_order_value from fact_transactions 
+--Insight: Helps understand typical customer spending per order
+
+
+
+--KPI 6: AVERAGE SELLING PRICE PER UNIT  
+--What is the average selling per unit sold?
+
+select sum(totalprice) /avg(quantity) as average_selling_price from fact_transactions 
+
+

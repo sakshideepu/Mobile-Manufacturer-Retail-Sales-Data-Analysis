@@ -1,0 +1,40 @@
+--CUSTOMER ANALYSIS
+
+
+
+--Customer Analysis 1: Top 10 Customers by Revenue 
+select top 10 b.idcustomer, b.Customer_name,sum(a.totalprice) as total_revenue from fact_transactions as a join dim_customer as b
+on a.idcustomer =b.idcustomer group by b.idcustomer, b.customer_name
+order by total_revenue desc
+
+--Insight: Identifies highest-value customers
+
+
+
+--Customer analysis 2: Customer Lifetime Value (CLV)
+Select c.idcustomer, c.customer_name, sum(a.totalprice) as Customer_Lifetime_Value from fact_transactions as a join dim_customer as c
+on a.idcustomer = c.idcustomer group by c.idcustomer, c.customer_name order by Customer_Lifetime_Value desc
+
+
+
+--Customer Analysis 3: Purchase Frequency 
+Select c.IDCustomer, c.customer_name, count(*) as total_transactions from fact_transactions as a join dim_customer as c
+on a.idcustomer = c.idcustomer group by c.idcustomer, c.customer_name
+order by total_transactions desc
+
+
+
+--Customer Analysis 4: Average Spend Per Customer 
+Select c.IDCustomer, c.customer_name, round(avg(totalprice),2) as total_transactions from fact_transactions as a join dim_customer as c
+on a.idcustomer = c.idcustomer group by c.idcustomer, c.customer_name
+order by total_transactions desc
+
+
+
+--Customer Analysis 5: Customer Spending Segments
+with CustomerRevenue As 
+(Select c.IdCustomer,c.Customer_name, sum(a.totalPrice) as Total_Revenue from fact_transactions as a 
+join dim_customer as c on a.idcustomer = c.idcustomer group by c.idcustomer, c.customer_name)
+select idcustomer, customer_name, total_revenue, NTILE(4) OVER(ORDER BY TOTAL_REVENUE desc) as Spending_Segment
+from CustomerRevenue order by total_revenue Desc
+

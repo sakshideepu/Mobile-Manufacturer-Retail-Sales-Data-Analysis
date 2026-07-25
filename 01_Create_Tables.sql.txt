@@ -1,0 +1,46 @@
+/************************************************************************************************
+Create tables in the database as per schema
+************************************************************************************************/
+CREATE TABLE DIM_MANUFACTURER (
+IDManufacturer INT PRIMARY KEY IDENTITY(11, 1),
+Manufacturer_Name VARCHAR (20)
+)
+
+CREATE TABLE DIM_MODEL (
+IDModel INT PRIMARY KEY IDENTITY(101, 1),
+Model_Name VARCHAR(20),
+Unit_price MONEY ,
+IDManufacturer INT REFERENCES DIM_Manufacturer(IDManufacturer)
+)
+
+CREATE TABLE DIM_CUSTOMER (
+IDCustomer INT PRIMARY KEY IDENTITY(10001, 1),
+Customer_Name VARCHAR(30),
+Email VARCHAR (40),
+Phone BIGINT
+)
+
+CREATE TABLE DIM_LOCATION (
+IDLocation INT PRIMARY KEY IDENTITY(2001, 1),
+ZipCode INT ,
+Country VARCHAR (20),
+[State] VARCHAR (20),
+City VARCHAR (20)
+)
+
+CREATE TABLE DIM_DATE (
+[DATE] DATE PRIMARY KEY,
+[YEAR] AS YEAR([DATE]),
+[QUARTER] AS DATEPART(QUARTER, [DATE]),
+[MONTH] AS MONTH([DATE])
+)
+
+CREATE TABLE FACT_TRANSACTIONS (
+IDModel INT REFERENCES DIM_MODEL(IDModel),
+IDCustomer INT REFERENCES DIM_CUSTOMER(IDCustomer),
+IDLocation INT REFERENCES DIM_LOCATION(IDLocation),
+Date DATE REFERENCES DIM_DATE([DATE]),
+TotalPrice MONEY,
+Quantity INT,
+)
+

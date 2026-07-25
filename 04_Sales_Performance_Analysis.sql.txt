@@ -1,0 +1,42 @@
+
+--Sales Performance Analysis
+
+--Sales Performance 1 - Revenue by Year
+
+Select year(date) as year_, sum(totalPrice) as avg_price_per_year from fact_transactions group by year(date) order by year_
+--Insight: Identify the highest-and- lowest-revenue years and whether revenue is increasing or decreasing
+
+
+
+--Sales Performance 2: Revenue by Quarter
+select b.year,b.quarter as Quarter, sum(a.TotalPrice) as Total_Revenue from fact_transactions as a 
+inner join dim_date as b on a.date = b.date 
+group by b.quarter, b.year order by b.quarter, b.year
+--Insight: Looks for seasonal peaks 
+
+
+
+--Sales Performance 3: Revenue by month 
+-- Which months contribute the highest revenue?
+Select b.year, b.month, sum(a.totalprice) as total_revenue from fact_transactions as a 
+inner join dim_date as b on a.date = b.date 
+group by b.year, b.month order by b.year desc, sum(a.totalprice) desc
+
+
+
+--Sales Performance 4: Month-over-Month (MoM) Revenue Growth
+With MonthlyRevenue as 
+(select b.year,b.month, sum(a.totalprice) as revenue from fact_transactions as a
+inner join dim_date as b on a.date =b. date group by b.year, b.month)
+
+select year, month, revenue, lag(revenue) over (order by year, month) as previous_month_revenue,
+revenue - lag(revenue) over (order by year, month) as revenue_difference, 
+round(((revenue - lag(revenue) over (order by year, month))*100)/ nullif(lag(revenue) over (order by year, month), 0),2) as MoM_Growth_Percentage 
+from MonthlyRevenue
+order by year desc, month desc
+
+--Sales Performance 5: Best Performing Month 
+select top 1 b.year, b.month, sum(a.totalprice) as total_revenue from fact_transactions as a 
+inner join dim_date as b on a.date =b.date
+group by b.year, b.month order by total_revenue desc
+
